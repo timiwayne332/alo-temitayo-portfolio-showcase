@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import { ExternalLink, Github, Eye, Code } from "lucide-react";
 import { TodoDemo } from "./demos/TodoDemo";
 import { DesignDemo } from "./demos/DesignDemo";
+import { SchoolDemo } from "./demos/SchoolDemo";
 
 export const Projects = () => {
   const [activeDemo, setActiveDemo] = useState<string | null>(null);
@@ -127,61 +127,77 @@ export const TodoDemo = () => {
 };`
     },
     {
-      id: "task-manager",
-      title: "Task Manager Pro",
-      description: "Advanced task management system with categories, priorities, and deadlines",
+      id: "school-management",
+      title: "School Management System",
+      description: "Comprehensive school management system for students, courses, and academic records",
       category: "Software Development", 
-      image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=500",
-      demo: TodoDemo,
-      technologies: ["React", "TypeScript", "Local Storage"],
-      code: `// Enhanced version of the Todo App with additional features
-import { useState, useEffect } from "react";
-import { Plus, Check, Trash2, Calendar, Flag } from "lucide-react";
+      image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500",
+      demo: SchoolDemo,
+      technologies: ["React", "TypeScript", "Tailwind CSS", "State Management"],
+      code: `import { useState } from "react";
+import { Users, BookOpen, GraduationCap, Calendar, Plus, Trash2 } from "lucide-react";
 
-interface Task {
+interface Student {
   id: number;
-  text: string;
-  completed: boolean;
-  priority: 'low' | 'medium' | 'high';
-  category: string;
-  dueDate?: string;
+  name: string;
+  grade: string;
+  subject: string;
+  attendance: number;
 }
 
-export const TaskManagerPro = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTask, setNewTask] = useState("");
-  const [filter, setFilter] = useState<"all" | "pending" | "completed">("all");
-  
-  // Load tasks from localStorage
-  useEffect(() => {
-    const savedTasks = localStorage.getItem('tasks');
-    if (savedTasks) {
-      setTasks(JSON.parse(savedTasks));
-    }
-  }, []);
-  
-  // Save tasks to localStorage
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
+interface Course {
+  id: number;
+  title: string;
+  instructor: string;
+  students: number;
+}
 
-  const addTask = () => {
-    if (newTask.trim()) {
-      setTasks([...tasks, {
+export const SchoolDemo = () => {
+  const [activeTab, setActiveTab] = useState<"students" | "courses">("students");
+  const [students, setStudents] = useState<Student[]>([
+    { id: 1, name: "John Smith", grade: "A", subject: "Mathematics", attendance: 95 },
+    { id: 2, name: "Sarah Johnson", grade: "B+", subject: "Physics", attendance: 88 },
+    { id: 3, name: "Mike Davis", grade: "A-", subject: "Chemistry", attendance: 92 }
+  ]);
+  
+  const [courses, setCourses] = useState<Course[]>([
+    { id: 1, title: "Advanced Mathematics", instructor: "Dr. Brown", students: 25 },
+    { id: 2, title: "Physics Fundamentals", instructor: "Prof. Wilson", students: 30 },
+    { id: 3, title: "Chemistry Lab", instructor: "Dr. Garcia", students: 20 }
+  ]);
+
+  const [newStudent, setNewStudent] = useState({ name: "", subject: "" });
+  const [newCourse, setNewCourse] = useState({ title: "", instructor: "" });
+
+  const addStudent = () => {
+    if (newStudent.name.trim() && newStudent.subject.trim()) {
+      setStudents([...students, {
         id: Date.now(),
-        text: newTask,
-        completed: false,
-        priority: 'medium',
-        category: 'General'
+        name: newStudent.name,
+        grade: "N/A",
+        subject: newStudent.subject,
+        attendance: 0
       }]);
-      setNewTask("");
+      setNewStudent({ name: "", subject: "" });
     }
   };
 
+  const addCourse = () => {
+    if (newCourse.title.trim() && newCourse.instructor.trim()) {
+      setCourses([...courses, {
+        id: Date.now(),
+        title: newCourse.title,
+        instructor: newCourse.instructor,
+        students: 0
+      }]);
+      setNewCourse({ title: "", instructor: "" });
+    }
+  };
+
+  // Component renders dashboard with student/course management tabs
   return (
-    <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-lg">
-      <h3 className="text-2xl font-bold text-slate-800 mb-6">Task Manager Pro</h3>
-      {/* Enhanced task management interface */}
+    <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl">
+      {/* Stats dashboard, tabbed interface, and CRUD operations */}
     </div>
   );
 };`
@@ -405,7 +421,6 @@ export const TaskManagerPro = () => {
           ))}
         </div>
 
-        {/* Demo Modal */}
         {activeDemo && (
           <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-xl max-w-6xl w-full max-h-[90vh] overflow-auto">
@@ -421,7 +436,6 @@ export const TaskManagerPro = () => {
                 </button>
               </div>
               
-              {/* Tab Navigation */}
               <div className="flex border-b border-slate-200">
                 <button
                   onClick={() => setActiveTab("demo")}
@@ -450,8 +464,10 @@ export const TaskManagerPro = () => {
               <div className="p-6">
                 {activeTab === "demo" ? (
                   <>
-                    {activeDemo === "todo-app" || activeDemo === "task-manager" ? (
+                    {activeDemo === "todo-app" ? (
                       <TodoDemo />
+                    ) : activeDemo === "school-management" ? (
+                      <SchoolDemo />
                     ) : (
                       <DesignDemo />
                     )}
