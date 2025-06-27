@@ -1,12 +1,12 @@
+
 import { useState } from "react";
-import { ExternalLink, Github, Eye, Code } from "lucide-react";
+import { ExternalLink, Github, Eye } from "lucide-react";
 import { TodoDemo } from "./demos/TodoDemo";
 import { DesignDemo } from "./demos/DesignDemo";
 import { SchoolDemo } from "./demos/SchoolDemo";
 
 export const Projects = () => {
   const [activeDemo, setActiveDemo] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"demo" | "code">("demo");
 
   const projects = [
     {
@@ -17,114 +17,7 @@ export const Projects = () => {
       image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=500",
       demo: TodoDemo,
       technologies: ["React", "TypeScript", "Tailwind CSS"],
-      code: `import { useState } from "react";
-import { Plus, Check, Trash2 } from "lucide-react";
-
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
-
-export const TodoDemo = () => {
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, text: "Design new portfolio layout", completed: false },
-    { id: 2, text: "Code responsive navigation", completed: true },
-    { id: 3, text: "Test across different devices", completed: false }
-  ]);
-  const [newTodo, setNewTodo] = useState("");
-
-  const addTodo = () => {
-    if (newTodo.trim()) {
-      setTodos([...todos, {
-        id: Date.now(),
-        text: newTodo,
-        completed: false
-      }]);
-      setNewTodo("");
-    }
-  };
-
-  const toggleTodo = (id: number) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
-  };
-
-  const deleteTodo = (id: number) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  return (
-    <div className="max-w-md mx-auto bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl">
-      <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">
-        My Todo App
-      </h3>
-      
-      <div className="flex gap-2 mb-6">
-        <input
-          type="text"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && addTodo()}
-          placeholder="Add a new task..."
-          className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          onClick={addTodo}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-colors"
-        >
-          <Plus size={20} />
-        </button>
-      </div>
-
-      <div className="space-y-2">
-        {todos.map((todo) => (
-          <div
-            key={todo.id}
-            className={\`flex items-center gap-3 p-3 rounded-lg transition-all \${
-              todo.completed
-                ? "bg-green-50 border border-green-200"
-                : "bg-white border border-slate-200"
-            }\`}
-          >
-            <button
-              onClick={() => toggleTodo(todo.id)}
-              className={\`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors \${
-                todo.completed
-                  ? "bg-green-500 border-green-500 text-white"
-                  : "border-slate-300 hover:border-blue-500"
-              }\`}
-            >
-              {todo.completed && <Check size={12} />}
-            </button>
-            
-            <span
-              className={\`flex-1 transition-all \${
-                todo.completed
-                  ? "text-green-700 line-through"
-                  : "text-slate-800"
-              }\`}
-            >
-              {todo.text}
-            </span>
-            
-            <button
-              onClick={() => deleteTodo(todo.id)}
-              className="text-red-500 hover:text-red-700 transition-colors"
-            >
-              <Trash2 size={16} />
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-6 text-center text-sm text-slate-600">
-        {todos.filter(todo => !todo.completed).length} of {todos.length} tasks remaining
-      </div>
-    </div>
-  );
-};`
+      githubUrl: "https://github.com/alotemitayo/todo-app"
     },
     {
       id: "school-management",
@@ -134,73 +27,7 @@ export const TodoDemo = () => {
       image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500",
       demo: SchoolDemo,
       technologies: ["React", "TypeScript", "Tailwind CSS", "State Management"],
-      code: `import { useState } from "react";
-import { Users, BookOpen, GraduationCap, Calendar, Plus, Trash2 } from "lucide-react";
-
-interface Student {
-  id: number;
-  name: string;
-  grade: string;
-  subject: string;
-  attendance: number;
-}
-
-interface Course {
-  id: number;
-  title: string;
-  instructor: string;
-  students: number;
-}
-
-export const SchoolDemo = () => {
-  const [activeTab, setActiveTab] = useState<"students" | "courses">("students");
-  const [students, setStudents] = useState<Student[]>([
-    { id: 1, name: "John Smith", grade: "A", subject: "Mathematics", attendance: 95 },
-    { id: 2, name: "Sarah Johnson", grade: "B+", subject: "Physics", attendance: 88 },
-    { id: 3, name: "Mike Davis", grade: "A-", subject: "Chemistry", attendance: 92 }
-  ]);
-  
-  const [courses, setCourses] = useState<Course[]>([
-    { id: 1, title: "Advanced Mathematics", instructor: "Dr. Brown", students: 25 },
-    { id: 2, title: "Physics Fundamentals", instructor: "Prof. Wilson", students: 30 },
-    { id: 3, title: "Chemistry Lab", instructor: "Dr. Garcia", students: 20 }
-  ]);
-
-  const [newStudent, setNewStudent] = useState({ name: "", subject: "" });
-  const [newCourse, setNewCourse] = useState({ title: "", instructor: "" });
-
-  const addStudent = () => {
-    if (newStudent.name.trim() && newStudent.subject.trim()) {
-      setStudents([...students, {
-        id: Date.now(),
-        name: newStudent.name,
-        grade: "N/A",
-        subject: newStudent.subject,
-        attendance: 0
-      }]);
-      setNewStudent({ name: "", subject: "" });
-    }
-  };
-
-  const addCourse = () => {
-    if (newCourse.title.trim() && newCourse.instructor.trim()) {
-      setCourses([...courses, {
-        id: Date.now(),
-        title: newCourse.title,
-        instructor: newCourse.instructor,
-        students: 0
-      }]);
-      setNewCourse({ title: "", instructor: "" });
-    }
-  };
-
-  // Component renders dashboard with student/course management tabs
-  return (
-    <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-100 p-6 rounded-xl">
-      {/* Stats dashboard, tabbed interface, and CRUD operations */}
-    </div>
-  );
-};`
+      githubUrl: "https://github.com/alotemitayo/school-management-system"
     },
     {
       id: "brand-identity",
@@ -210,87 +37,7 @@ export const SchoolDemo = () => {
       image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?w=500",
       demo: DesignDemo,
       technologies: ["Adobe Illustrator", "Photoshop", "Figma"],
-      code: `export const DesignDemo = () => {
-  const designs = [
-    {
-      title: "Modern Logo Design",
-      image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?w=400",
-      description: "Clean, minimalist logo with modern typography"
-    },
-    {
-      title: "Brand Color Palette", 
-      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400",
-      description: "Carefully selected colors that represent brand values"
-    },
-    {
-      title: "Event Poster",
-      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?w=400", 
-      description: "Eye-catching poster design for tech conference"
-    }
-  ];
-
-  return (
-    <div className="max-w-4xl mx-auto">
-      <h3 className="text-2xl font-bold text-slate-800 mb-6 text-center">
-        Design Portfolio Showcase
-      </h3>
-      
-      <div className="grid md:grid-cols-3 gap-6">
-        {designs.map((design, index) => (
-          <div key={index} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-            <div className="relative overflow-hidden">
-              <img
-                src={design.image}
-                alt={design.title}
-                className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 text-white">
-                  <p className="text-sm font-medium">View Details</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="p-4">
-              <h4 className="font-bold text-slate-800 mb-2">{design.title}</h4>
-              <p className="text-sm text-slate-600">{design.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
-        <h4 className="text-lg font-bold text-slate-800 mb-4">Design Process</h4>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold">
-              1
-            </div>
-            <p className="text-sm font-medium text-slate-800">Research</p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold">
-              2
-            </div>
-            <p className="text-sm font-medium text-slate-800">Concept</p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold">
-              3
-            </div>
-            <p className="text-sm font-medium text-slate-800">Design</p>
-          </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center mx-auto mb-2 font-bold">
-              4
-            </div>
-            <p className="text-sm font-medium text-slate-800">Refine</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};`
+      githubUrl: "https://github.com/alotemitayo/brand-identity-designs"
     },
     {
       id: "poster-design",
@@ -300,61 +47,13 @@ export const SchoolDemo = () => {
       image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?w=500",
       demo: DesignDemo,
       technologies: ["Adobe Creative Suite", "Typography", "Print Design"],
-      code: `// CSS styles for poster design components
-.poster-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-}
-
-.poster-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.poster-card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.poster-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.poster-image {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.poster-content {
-  padding: 1.5rem;
-}
-
-.poster-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #2d3748;
-  margin-bottom: 0.5rem;
-}
-
-.poster-description {
-  color: #718096;
-  font-size: 0.875rem;
-  line-height: 1.5;
-}`
+      githubUrl: "https://github.com/alotemitayo/poster-designs"
     }
   ];
+
+  const handleGitHubClick = (githubUrl: string) => {
+    window.open(githubUrl, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <section id="projects" className="py-20 px-4 bg-slate-50">
@@ -411,7 +110,10 @@ export const SchoolDemo = () => {
                     <Eye size={16} />
                     Live Demo
                   </button>
-                  <button className="flex items-center gap-2 border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg transition-colors">
+                  <button 
+                    onClick={() => handleGitHubClick(project.githubUrl)}
+                    className="flex items-center gap-2 border border-slate-300 hover:bg-slate-50 text-slate-700 px-4 py-2 rounded-lg transition-colors"
+                  >
                     <Github size={16} />
                     Code
                   </button>
@@ -436,48 +138,13 @@ export const SchoolDemo = () => {
                 </button>
               </div>
               
-              <div className="flex border-b border-slate-200">
-                <button
-                  onClick={() => setActiveTab("demo")}
-                  className={`px-6 py-3 font-medium transition-colors ${
-                    activeTab === "demo"
-                      ? "text-blue-600 border-b-2 border-blue-600"
-                      : "text-slate-600 hover:text-slate-800"
-                  }`}
-                >
-                  <Eye size={16} className="inline mr-2" />
-                  Live Demo
-                </button>
-                <button
-                  onClick={() => setActiveTab("code")}
-                  className={`px-6 py-3 font-medium transition-colors ${
-                    activeTab === "code"
-                      ? "text-blue-600 border-b-2 border-blue-600"
-                      : "text-slate-600 hover:text-slate-800"
-                  }`}
-                >
-                  <Code size={16} className="inline mr-2" />
-                  Source Code
-                </button>
-              </div>
-              
               <div className="p-6">
-                {activeTab === "demo" ? (
-                  <>
-                    {activeDemo === "todo-app" ? (
-                      <TodoDemo />
-                    ) : activeDemo === "school-management" ? (
-                      <SchoolDemo />
-                    ) : (
-                      <DesignDemo />
-                    )}
-                  </>
+                {activeDemo === "todo-app" ? (
+                  <TodoDemo />
+                ) : activeDemo === "school-management" ? (
+                  <SchoolDemo />
                 ) : (
-                  <div className="bg-slate-900 rounded-lg p-4 overflow-auto">
-                    <pre className="text-green-400 text-sm whitespace-pre-wrap">
-                      <code>{projects.find(p => p.id === activeDemo)?.code}</code>
-                    </pre>
-                  </div>
+                  <DesignDemo />
                 )}
               </div>
             </div>
