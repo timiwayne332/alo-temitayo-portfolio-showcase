@@ -16,7 +16,7 @@ export const Projects = () => {
       image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=500",
       demo: TodoDemo,
       technologies: ["React", "TypeScript", "Tailwind CSS"],
-      githubUrl: "https://github.com/alotemitayo/todo-app"
+      githubUrl: "https://github.com/timiwayne332/daily-task-bliss-27"
     },
     {
       id: "school-management",
